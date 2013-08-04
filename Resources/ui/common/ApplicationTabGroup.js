@@ -1,4 +1,5 @@
 function ApplicationTabGroup(Window) {
+	
 	var SettingsWindow = require('ui/common/SettingsWindow');
 	var HomeWindow = require('ui/common/HomeWindow');
 	//create module instance
@@ -12,7 +13,6 @@ function ApplicationTabGroup(Window) {
 	var tab1 = Ti.UI.createTab({
 		title: "Home",
 		icon: 'KS_nav_ui.png',
-		backgroundColor:'#000',
 		window: win1
 	});
 	win1.containingTab = tab1;
@@ -20,7 +20,6 @@ function ApplicationTabGroup(Window) {
 	var tab2 = Ti.UI.createTab({
 		title: "Settings",
 		icon: 'KS_nav_views.png',
-		backgroundColor:'#fff',
 		window: win2
 	});
 	win2.containingTab = tab2;

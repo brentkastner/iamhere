@@ -2,18 +2,13 @@ function HomeWindow() {
 	
 	var self = Ti.UI.createWindow({
 		title:'Home',
-    	backgroundColor:'#fff'
+    	backgroundColor:'#000000'
 	});
 	
 	var latitude = '';
 	var longitude = '';
 	var accuracy = '';
 		
-	//create component instance
-	var self = Ti.UI.createWindow({
-		backgroundColor:'#000000'
-	});
-	
 	
 	if (Ti.Geolocation.locationServicesEnabled) {
 		//do stuff
