@@ -5,29 +5,35 @@ function SettingsWindow() {
     	backgroundColor:'#fff'
 	});
 	
-	//need to grab app settings from the Ti.App local store
-	var mapEngineIndex = Ti.App.Properties.getInt('mapEngine');
-	Ti.API.info("mapEngineIndex: " + mapEngineIndex);
+
+
+	var generalDataSet = [
+    	{ title: 'Map Engine', hasChild:true, link:'ui/common/MapWindow'},
+    	{ title: 'Preset Contacts', hasChild:true, link:'ui/common/MapWindow'},
+	];
 	
-	var mapEngine = Titanium.UI.createTabbedBar({
-    	labels:['Apple', 'Google', 'Bing'],
-    	backgroundColor:'#336699',
-    	top:30,
-    	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
-    	height:25,
-    	width:200,
-    	index:mapEngineIndex
-	});
-	
-	self.add(mapEngine);
-	
-	mapEngine.addEventListener('click', function(e){
-		//save button selection
-		Ti.App.Properties.setInt('mapEngine', e.index);
+	var tableView = Ti.UI.createTableView({ 
 		
-		Ti.API.info("Value of button click: " + e.index);
-	});
+		data: generalDataSet,
+		
+		});
+
 	
+	self.add(tableView);
+
+	tableView.addEventListener('click', function(e){
+		
+		if (e.rowData.link) {
+			newWindow = require(e.rowData.link);
+			Ti.API.info('link: ' + e.rowData.link);
+			
+			win = new newWindow({title:e.rowData.title,containingTab:self.containingTab,tabGroup:self.tabGroup});
+			
+		}
+		self.containingTab.open(win,{animated:true});
+		
+	});
+		
 	return self;
 	
 	

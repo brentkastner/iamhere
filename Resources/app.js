@@ -41,6 +41,8 @@ if (Ti.version < 1.8 ) {
 		}
 	}
 	
+	var mapEngineIndex = Ti.App.Properties.getInt('mapEngine', 0);
+	Ti.API.info("mapEngineIndex: " + mapEngineIndex);
 	var ApplicationTabGroup = require('ui/common/ApplicationTabGroup');
 	new ApplicationTabGroup().open();
 	

@@ -5,6 +5,9 @@ function ApplicationTabGroup(Window) {
 	//create module instance
 	var self = Ti.UI.createTabGroup();
 	
+	//Workaround to set tabgroup to be used in other areas of the application
+	//Titanium.UI.currentTabGroup = self; 
+	
 		//create app tabs
 	var win1 = new HomeWindow();
 	
