@@ -5,17 +5,27 @@ function SettingsWindow() {
     	backgroundColor:'#fff'
 	});
 	
-	var label = Ti.UI.createLabel({
-		color: '#000000',
-		text: 'Settings Area',
-		height: 'auto',
-		width: 'auto'
+	//need to grab app settings from the Ti.App local store
+	var mapEngineIndex = Ti.App.Properties.getInt('mapEngine');
+	Ti.API.info("mapEngineIndex: " + mapEngineIndex);
+	
+	var mapEngine = Titanium.UI.createTabbedBar({
+    	labels:['Apple', 'Google', 'Bing'],
+    	backgroundColor:'#336699',
+    	top:30,
+    	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
+    	height:25,
+    	width:200,
+    	index:mapEngineIndex
 	});
 	
-	self.add(label);
+	self.add(mapEngine);
 	
-	label.addEventListener('click', function(e) {
-		alert(e.source.text);
+	mapEngine.addEventListener('click', function(e){
+		//save button selection
+		Ti.App.Properties.setInt('mapEngine', e.index);
+		
+		Ti.API.info("Value of button click: " + e.index);
 	});
 	
 	return self;
