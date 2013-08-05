@@ -22,6 +22,10 @@ function PresetWindow(_args) {
 			selectedProperty: function(e) {
 			Ti.API.info("Selected Number: " + e.value);
 			
+			if (list.indexOf(e.value) == -1)
+			{
+				
+			
 			list.push(e.value);
 			Ti.App.Properties.setList('quickSend', list);
 			
@@ -36,7 +40,10 @@ function PresetWindow(_args) {
 			
 			table.setData([]);
 			table.setData(tableData);
-	
+			}
+			else {
+				alert('That number is already a preset!');
+			}
 			}
 		})
 		}

@@ -83,7 +83,7 @@ function HomeWindow() {
 		Titanium.API.info("Emergency Button Click");
 		
 		if (quickSend.length > 0) {
-			alert('We\'ve got records!');
+			alert('We\'ve got records! ' + quickSend.length);
 		} else {
 			alert('Use settings to configure presets!');
 		}
