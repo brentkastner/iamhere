@@ -14,7 +14,7 @@ function ApplicationTabGroup(Window) {
 	var win2 = new SettingsWindow();
 	
 	var tab1 = Ti.UI.createTab({
-		title: "Home",
+		title: "PingYa",
 		icon: 'KS_nav_ui.png',
 		window: win1
 	});

@@ -1,13 +1,16 @@
 function HomeWindow() {
 	
 	var self = Ti.UI.createWindow({
-		title:'Home',
+		title:'PingYa',
     	backgroundColor:'#000000'
 	});
 	
 	var latitude = '';
 	var longitude = '';
 	var accuracy = '';
+	var quickSend = Ti.App.Properties.getList('quickSend', []);
+	
+	Ti.API.info('how many records in my quickSend: ' + quickSend.length);
 		
 	
 	if (Ti.Geolocation.locationServicesEnabled) {
@@ -43,10 +46,26 @@ function HomeWindow() {
 	
 	self.add(button);
 	
+	var emergencyButton = Titanium.UI.createButton({
+		title: 'Quick Send',
+		top: 200,
+		width: 200,
+		height: 100,
+		color: 'black',
+		backgroundColor: 'red',
+		borderRadius: 15,
+		borderWidth: 1,
+		borderColor: '#9CC1E6',
+		backgroundImage: 'NONE'
+		
+	});
+	
+	self.add(emergencyButton);
+	
 	
 	button.addEventListener('click', function(e)
 	{
-		Titanium.API.info("Button click");
+		Titanium.API.info("Send Button Click");
 		
 		Ti.API.info('Longitude: ' + self.longitude);
 		Ti.API.info('Latitude: ' + self.latitude);
@@ -58,6 +77,17 @@ function HomeWindow() {
 			}
 		})
 
+	});
+	
+	emergencyButton.addEventListener('click', function(e) {
+		Titanium.API.info("Emergency Button Click");
+		
+		if (quickSend.length > 0) {
+			alert('We\'ve got records!');
+		} else {
+			alert('Use settings to configure presets!');
+		}
+		
 	});
 	
 	
