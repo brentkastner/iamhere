@@ -8,9 +8,6 @@ function HomeWindow() {
 	var latitude = '';
 	var longitude = '';
 	var accuracy = '';
-	var quickSend = Ti.App.Properties.getList('quickSend', []);
-	
-	Ti.API.info('how many records in my quickSend: ' + quickSend.length);
 		
 	
 	if (Ti.Geolocation.locationServicesEnabled) {
@@ -81,6 +78,7 @@ function HomeWindow() {
 	
 	emergencyButton.addEventListener('click', function(e) {
 		Titanium.API.info("Emergency Button Click");
+		var quickSend = Ti.App.Properties.getList('quickSend', []);
 		
 		if (quickSend.length > 0) {
 			alert('We\'ve got records! ' + quickSend.length);

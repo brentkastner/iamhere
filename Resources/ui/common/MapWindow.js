@@ -13,6 +13,7 @@ function MapWindow(_args) {
 		text: "Select Map Provider",
 		top: 20
 	});
+		
 	
 	self.add(mapLabel);
 	
@@ -34,6 +35,51 @@ function MapWindow(_args) {
 		
 		Ti.API.info("Value of button click: " + e.index);
 	});
+
+	
+				
+		if (Ti.Geolocation.locationServicesEnabled) {
+		//do stuff
+		Ti.Geolocation.purpose = 'Get Current Location';
+		Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+		Ti.preferredProvider = Ti.Geolocation.PROVIDER_GPS;
+		
+		Ti.Geolocation.getCurrentPosition(function(e) {
+			if (e.error) {
+				alert('Error: ' + e.error);
+			} else {
+				Ti.API.info(e.coords);
+				var latitude = e.coords.latitude;
+				var longitude = e.coords.longitude;
+				var accuracy = e.coords.accuracy;
+				
+				
+				var mapView = Titanium.Map.createView({
+				mapType: Titanium.Map.STANDARD_TYPE,
+				region: {latitude: latitude, longitude: longitude, latitudeDelta: .1, longitudeDelta: .1},
+				animate:true,
+				regionFit:true,
+				userLocation:true,
+				top: 100,
+				height: 300,
+				width: 300,
+				borderRadius: 15,
+				borderColor: '9CC1E6',
+				borderWidth: 1
+				});
+				self.add(mapView);
+
+			}
+		});
+		
+		
+	} else {
+		alert('Please enable location services!');
+	}
+
+
+
+
 	
 	return self;
 };
