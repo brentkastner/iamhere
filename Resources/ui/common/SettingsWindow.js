@@ -8,7 +8,7 @@ function SettingsWindow() {
 
 
 	var generalDataSet = [
-    	{ title: 'Map Engine', hasChild:true, link:'ui/common/MapWindow'},
+    	{ title: 'Maps', hasChild:true, link:'ui/common/MapWindow'},
     	{ title: 'Preset Contacts', hasChild:true, link:'ui/common/PresetWindow'},
 	];
 	

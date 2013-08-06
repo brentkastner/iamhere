@@ -5,7 +5,7 @@ function MapWindow(_args) {
 	Ti.API.info("mapEngineIndex: " + mapEngineIndex);
 	
 	var self = Ti.UI.createWindow({
-		title: 'Map Engine',
+		title: 'Map',
     	backgroundColor:'#fff'
 	});
 	
