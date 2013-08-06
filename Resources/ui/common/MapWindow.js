@@ -61,8 +61,8 @@ function MapWindow(_args) {
 				regionFit:true,
 				userLocation:true,
 				top: 100,
-				height: 300,
-				width: 300,
+				height: 250,
+				width: 250,
 				borderRadius: 15,
 				borderColor: '9CC1E6',
 				borderWidth: 1

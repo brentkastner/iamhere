@@ -36,7 +36,7 @@ function HomeWindow() {
 	
 	var button = Titanium.UI.createButton({
 		title: 'Send Location',
-		top: 100,
+		top: 50,
 		width: 200,
 		height: 50
 	});
@@ -45,7 +45,7 @@ function HomeWindow() {
 	
 	var emergencyButton = Titanium.UI.createButton({
 		title: 'Quick Send',
-		top: 200,
+		top: 150,
 		width: 200,
 		height: 100,
 		color: 'black',
