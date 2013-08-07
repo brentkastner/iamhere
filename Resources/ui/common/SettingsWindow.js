@@ -10,6 +10,7 @@ function SettingsWindow() {
 	var generalDataSet = [
     	{ title: 'Maps', hasChild:true, link:'ui/common/MapWindow'},
     	{ title: 'Preset Contacts', hasChild:true, link:'ui/common/PresetWindow'},
+    	{ title: 'Message Default', hasChild:true, link:'/ui/common/MessageWindow'},
 	];
 	
 	var tableView = Ti.UI.createTableView({ 
