@@ -1,6 +1,6 @@
 function MessageWindow(_args) {
 	
-	var defaultMessage = Ti.App.Properties.getString('defaultMessage', 'I\'m sending you my location from PingYa, click the link below!  ');
+	var defaultMessage = Ti.App.Properties.getString('defaultMessage', 'I\'m sending you my location from PingYa, click the link!  ');
 	
 	var self = Ti.UI.createWindow({
 		title: 'Message Default',
