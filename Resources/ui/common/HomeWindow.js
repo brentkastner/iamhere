@@ -1,7 +1,9 @@
 function HomeWindow() {
 	var module = require('com.omorandi');
 	var smsDialog = module.createSMSDialog();
-	
+	var latitude;
+	var longitude;
+
 	var defaultMessage = Ti.App.Properties.getString('defaultMessage', 'I\'m sending you my location from PingYa, click the link!  ');
 	
 	var self = Ti.UI.createWindow({
@@ -9,9 +11,6 @@ function HomeWindow() {
     	backgroundColor:'#000000'
 	});
 	
-	var latitude = '';
-	var longitude = '';
-	var accuracy = '';
 		
 	
 	if (Ti.Geolocation.locationServicesEnabled) {
@@ -20,15 +19,14 @@ function HomeWindow() {
 		Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
 		Ti.preferredProvider = Ti.Geolocation.PROVIDER_GPS;
 		
-		Ti.Geolocation.getCurrentPosition(function(e) {
+		Ti.Geolocation.addEventListener('location', function(e) {
 			if (e.error) {
 				alert('Error: ' + e.error);
 			} else {
-				Ti.API.info(e.coords);
-				self.latitude = e.coords.latitude;
-				self.longitude = e.coords.longitude;
-				self.accuracy = e.coords.accuracy;
-
+				latitude = e.coords.latitude;
+				longitude = e.coords.longitude;
+				Ti.API.info('longitude: ' + longitude);
+				Ti.API.info('latitude: ' + latitude);
 			}
 		});
 		
@@ -67,43 +65,18 @@ function HomeWindow() {
 	button.addEventListener('click', function(e)
 	{
 		Titanium.API.info("Send Button Click");
-		
-		if (Ti.Geolocation.locationServicesEnabled) {
-		//do stuff
-		Ti.Geolocation.purpose = 'Get Current Location';
-		Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
-		Ti.preferredProvider = Ti.Geolocation.PROVIDER_GPS;
-		
-			Ti.Geolocation.getCurrentPosition(function(e) {
-				if (e.error) {
-					alert('Error: ' + e.error);
-				} else {
-					Ti.API.info(e.coords);
-					self.latitude = e.coords.latitude;
-					self.longitude = e.coords.longitude;
-					self.accuracy = e.coords.accuracy;
-
-				}
-			});
-		
-		
-		} else {
-			alert('Please enable location services!');
-		}
-		
-		
-		Ti.API.info('Longitude: ' + self.longitude);
-		Ti.API.info('Latitude: ' + self.latitude);
-		Ti.API.info('Accuracy: ' + self.accuracy);
-		var iMessage = defaultMessage  + ' maps.google.com\/maps?q=' + self.latitude + ',' + self.longitude;
-		Ti.API.info('message: ' + iMessage);
-		Titanium.Contacts.showContacts({
-			selectedProperty: function(e) {
+		Ti.API.info('latitude: ' + latitude);
+		Ti.API.info('longitude: ' + longitude);
+		defaultMessage = Ti.App.Properties.getString('defaultMessage', 'I\'m sending you my location from PingYa, click the link!  ');
+			Titanium.Contacts.showContacts({
+				selectedProperty: function(e) {
 				Ti.API.info("Mobile Number: " + e.value);
 				
-			sleepMyThread(777);
+				sleepMyThread(777);
 			
 				if (smsDialog.isSupported() == true) {
+					var iMessage = defaultMessage  + ' maps.google.com\/maps?q=' + latitude + ',' + longitude;
+					Ti.API.info('message: ' + iMessage);
 					smsDialog.recipients = [e.value];
 
 					smsDialog.messageBody = iMessage;
@@ -113,57 +86,35 @@ function HomeWindow() {
 				} else {
 					alert('SMS is not supported on this device');
 				}
-			}
-		})
-		
 
-		
+				}
+			})
 
-		
 
 	});
 	
 	emergencyButton.addEventListener('click', function(e) {
 		Titanium.API.info("Emergency Button Click");
+		Ti.API.info('latitude: ' + latitude);
+		Ti.API.info('longitude: ' + longitude);
 		var quicksend = [];
 		smsDialog.recipients = [];
 		quickSend = Ti.App.Properties.getList('quickSend', []);
-		
-		if (Ti.Geolocation.locationServicesEnabled) {
-			//do stuff
-			Ti.Geolocation.purpose = 'Get Current Location';
-			Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
-			Ti.preferredProvider = Ti.Geolocation.PROVIDER_GPS;
-		
-			Ti.Geolocation.getCurrentPosition(function(e) {
-				if (e.error) {
-					alert('Error: ' + e.error);
-				} else {
-					Ti.API.info(e.coords);
-					self.latitude = e.coords.latitude;
-					self.longitude = e.coords.longitude;
-					self.accuracy = e.coords.accuracy;
+		defaultMessage = Ti.App.Properties.getString('defaultMessage', 'I\'m sending you my location from PingYa, click the link!  ');
 
-				}
-			});
-		
-		
-		} else {
-			alert('Please enable location services!');
-		}
-		
-		var iMessage = defaultMessage  + ' maps.google.com\/maps?q=' + self.latitude + ',' + self.longitude;
+					
+		var iMessage = defaultMessage  + ' maps.google.com\/maps?q=' + latitude + ',' + longitude;
 		if (smsDialog.isSupported() == true) {
 			if (quickSend.length > 0) {
 			
 				for (i=0; i<quickSend.length; i++) {
-				smsDialog.addRecipient(quickSend[i]);
+					smsDialog.addRecipient(quickSend[i]);
 				
 				};
 				
-				smsDialog.messageBody = iMessage;
-				smsDialog.barColor = 'red';
-				smsDialog.open({animated: true});
+			smsDialog.messageBody = iMessage;
+			smsDialog.barColor = 'red';
+			smsDialog.open({animated: true});
 			
 			} else {
 				alert('Use settings to configure presets!');
@@ -171,6 +122,8 @@ function HomeWindow() {
 		} else {
 			alert('SMS is not supported on this device!');
 		}
+
+
 	});
 	
 	smsDialog.addEventListener('complete', function(e){
