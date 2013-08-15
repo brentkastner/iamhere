@@ -9,32 +9,32 @@ function MapWindow(_args) {
     	backgroundColor:'#fff'
 	});
 	
-	var mapLabel = Ti.UI.createLabel({
-		text: "Select Map Provider",
-		top: 20
-	});
+	//var mapLabel = Ti.UI.createLabel({
+	//	text: "Select Map Provider",
+	//	top: 20
+	//});
 		
 	
-	self.add(mapLabel);
+	//self.add(mapLabel);
 	
-	var mapEngine = Titanium.UI.createTabbedBar({
-    	labels:['Apple', 'Google', 'Bing'],
-    	backgroundColor:'#336699',
-    	top:50,
-    	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
-    	height:25,
-    	width:200,
-    	index:mapEngineIndex
-	});
+	//var mapEngine = Titanium.UI.createTabbedBar({
+    //	labels:['Apple', 'Google', 'Bing'],
+    //	backgroundColor:'#336699',
+    //	top:50,
+    //	style:Titanium.UI.iPhone.SystemButtonStyle.BAR,
+    //	height:25,
+    //	width:200,
+    //	index:mapEngineIndex
+	//});
 	
-	self.add(mapEngine);
+	//self.add(mapEngine);
 	
-	mapEngine.addEventListener('click', function(e){
+	//mapEngine.addEventListener('click', function(e){
 		//save button selection
-		Ti.App.Properties.setInt('mapEngine', e.index);
+	//	Ti.App.Properties.setInt('mapEngine', e.index);
 		
-		Ti.API.info("Value of button click: " + e.index);
-	});
+	//	Ti.API.info("Value of button click: " + e.index);
+	//});
 
 	
 				
@@ -60,7 +60,7 @@ function MapWindow(_args) {
 				animate:true,
 				regionFit:true,
 				userLocation:true,
-				top: 100,
+				top: 50,
 				height: 250,
 				width: 250,
 				borderRadius: 15,
