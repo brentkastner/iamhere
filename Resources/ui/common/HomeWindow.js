@@ -7,7 +7,7 @@ function HomeWindow() {
 	var defaultMessage = Ti.App.Properties.getString('defaultMessage', 'I\'m sending you my location from PingYa, click the link!  ');
 	
 	var self = Ti.UI.createWindow({
-		title:'PingYa',
+		title:'Ping Ya',
     	backgroundColor:'#000000'
 	});
 	
