@@ -2,7 +2,7 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>net.rockstarsoftware.PingYa</id>
     <name>Ping Ya</name>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <publisher>RockStar Software</publisher>
     <url>http://twitter.com/rockstarsftware</url>
     <description>I'll Ping Ya!</description>
