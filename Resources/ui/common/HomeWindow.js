@@ -3,6 +3,8 @@ function HomeWindow() {
 	var smsDialog = module.createSMSDialog();
 	var latitude;
 	var longitude;
+	var coords = true;
+	var address;
 
 	var defaultMessage = Ti.App.Properties.getString('defaultMessage', 'I\'m sending you my location from PingYa, click the link!  ');
 	
@@ -19,6 +21,50 @@ function HomeWindow() {
 		Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
 		Ti.preferredProvider = Ti.Geolocation.PROVIDER_GPS;
 		
+		var mapView = Titanium.Map.createView({
+			mapType: Titanium.Map.STANDARD_TYPE,
+			region: {latitude: latitude, longitude: longitude, latitudeDelta: .1, longitudeDelta: .1},
+			animate:true,
+			regionFit:true,
+			userLocation:true,
+			top: 2,
+			height: 300,
+			width: 300,
+			borderRadius: 15,
+			borderColor: '9CC1E6',
+			borderWidth: 1
+		});
+		self.add(mapView);
+		
+		var locationLabel = Ti.UI.createLabel({
+			top: 5,
+			width: 295,
+			height: 50,
+			color: 'blue',
+  			font: { fontSize:14 },
+  			backgroundColor: 'white',
+  			borderColor: '9CC1E6',
+  			borderRadius: 15,
+  			borderWidth: 1,
+  			backgroundPaddingLeft: 10,
+  			opacity: .8,
+  			visible: false
+		});
+		
+		self.add(locationLabel);
+		
+		locationLabel.addEventListener('click', function(e){
+			if (coords == true) {
+				var label = 'Swtiching to address mode';
+				locationLabel.text = label;
+				coords = false;
+			} else {
+				var label = 'Switching to coordinates mode';
+				locationLabel.text = label;
+				coords = true;
+			}
+		});
+		
 		Ti.Geolocation.addEventListener('location', function(e) {
 			if (e.error) {
 				alert('Error: ' + e.error);
@@ -27,9 +73,42 @@ function HomeWindow() {
 				longitude = e.coords.longitude;
 				Ti.API.info('longitude: ' + longitude);
 				Ti.API.info('latitude: ' + latitude);
+				mapView.region = {latitude: latitude, longitude: longitude, latitudeDelta: .1, longitudeDelta: .1};
+				
+				if (coords == true) {
+					var labelText = '  Latitude: ' + latitude + '\n  Longitude: ' + longitude;
+					locationLabel.text = labelText;
+					locationLabel.visible = true;
+				} else {
+					Titanium.Geolocation.reverseGeocoder(latitude, longitude, function(evt){
+						if (evt.success) {
+							
+							if (evt.places[0].displayAddress != undefined) {
+								address = evt.places[0].displayAddress;
+							} else {
+								var street = evt.places[0].street;
+								var city = evt.places[0].city;
+								var zip = evt.places[0].postalCode;
+								
+								address = street + ', ' + city;
+							}
+
+						} else {
+							address = "  No Address Found";
+						}
+					});
+					var labelText = '  Address: Searching...';
+					
+					if (address != undefined) {
+						labelText = '  Address: ' + address;
+					}
+					locationLabel.text = labelText;
+					locationLabel.visible = true;
+				}
 			}
 		});
 		
+
 		
 	} else {
 		alert('Please enable location services!');
@@ -38,18 +117,20 @@ function HomeWindow() {
 	
 	var button = Titanium.UI.createButton({
 		title: 'Send Location',
-		top: 50,
-		width: 200,
-		height: 50
+		top: 310,
+		width: 125,
+		height: 50,
+		left: 20,
 	});
 	
 	self.add(button);
 	
 	var emergencyButton = Titanium.UI.createButton({
 		title: 'Quick Send',
-		top: 150,
-		width: 200,
-		height: 100,
+		top: 310,
+		width: 125,
+		right: 20,
+		height: 50,
 		color: 'black',
 		backgroundColor: 'red',
 		borderRadius: 15,
@@ -75,7 +156,15 @@ function HomeWindow() {
 				sleepMyThread(777);
 			
 				if (smsDialog.isSupported() == true) {
-					var iMessage = defaultMessage  + ' maps.google.com\/maps?q=' + latitude + ',' + longitude;
+					var iMessage = defaultMessage;
+					
+					if (coords == true) {
+						iMessage = iMessage + ' maps.google.com\/maps?q=' + latitude + ',' + longitude;
+					} else {
+						iMessage = iMessage + ' ' + address;
+					}
+					
+					
 					Ti.API.info('message: ' + iMessage);
 					smsDialog.recipients = [e.value];
 
@@ -103,7 +192,15 @@ function HomeWindow() {
 		defaultMessage = Ti.App.Properties.getString('defaultMessage', 'I\'m sending you my location from PingYa, click the link!  ');
 
 					
-		var iMessage = defaultMessage  + ' maps.google.com\/maps?q=' + latitude + ',' + longitude;
+		var iMessage = defaultMessage;
+		
+		if (coords == true) {
+			iMessage = iMessage + ' maps.google.com\/maps?q=' + latitude + ',' + longitude;
+		} else {
+			iMessage = iMessage + ' ' + address;
+		}
+		
+		 
 		if (smsDialog.isSupported() == true) {
 			if (quickSend.length > 0) {
 			
