@@ -73,7 +73,7 @@ function HomeWindow() {
 				longitude = e.coords.longitude;
 				Ti.API.info('longitude: ' + longitude);
 				Ti.API.info('latitude: ' + latitude);
-				mapView.region = {latitude: latitude, longitude: longitude, latitudeDelta: .1, longitudeDelta: .1};
+				mapView.region = {latitude: latitude, longitude: longitude, latitudeDelta: .06, longitudeDelta: .06};
 				
 				if (coords == true) {
 					var labelText = '  Latitude: ' + latitude + '\n  Longitude: ' + longitude;
@@ -91,6 +91,7 @@ function HomeWindow() {
 								var zip = evt.places[0].postalCode;
 								
 								address = street + ', ' + city;
+								//address = evt.places[0].address;
 							}
 
 						} else {
